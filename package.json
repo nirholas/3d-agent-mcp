@@ -1,0 +1,86 @@
+{
+	"name": "@three-ws/mcp-server",
+	"version": "1.2.0",
+	"mcpName": "io.github.nirholas/3d-agent-mcp",
+	"description": "MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.",
+	"type": "module",
+	"author": "nirholas",
+	"license": "SEE LICENSE IN LICENSE",
+	"homepage": "https://three.ws",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nirholas/3d-agent-mcp.git"
+	},
+	"keywords": [
+		"mcp",
+		"model-context-protocol",
+		"3d-agent",
+		"three.ws",
+		"x402",
+		"usdc",
+		"solana",
+		"pump.fun",
+		"erc-8004",
+		"ai-agent",
+		"pose-generation",
+		"vanity-address",
+		"text-to-3d",
+		"trellis",
+		"free"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"src",
+		"server.json",
+		"README.md",
+		"LICENSE"
+	],
+	"bin": {
+		"3d-agent-mcp": "src/index.js"
+	},
+	"main": "./src/index.js",
+	"exports": {
+		".": "./src/index.js"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"scripts": {
+		"start": "node src/index.js",
+		"build:ui": "node app/build.mjs",
+		"inspect": "npx -y @modelcontextprotocol/inspector node src/index.js",
+		"prepublishOnly": "node -e \"import('./src/index.js').catch(e => { if (!e.message.includes('facilitator')) throw e })\" 2>/dev/null; echo 'package check ok'"
+	},
+	"dependencies": {
+		"@bonfida/spl-name-service": "0.1.67",
+		"@coinbase/x402": "^2.1.0",
+		"@coral-xyz/anchor": "^0.32.1",
+		"@ethereum-attestation-service/eas-sdk": "0.29.1",
+		"@metaplex-foundation/js": "^0.20.1",
+		"@modelcontextprotocol/sdk": "^1.29.0",
+		"@solana/web3.js": "^1.98.4",
+		"@tetsuo-ai/protocol": "^0.2.0",
+		"@tetsuo-ai/sdk": "^1.4.0",
+		"@x402/core": "^2.13.0",
+		"@x402/evm": "^2.13.0",
+		"@x402/extensions": "^2.13.0",
+		"@x402/mcp": "^2.13.0",
+		"@x402/svm": "^2.13.0",
+		"agent0-sdk": "^1.7.1",
+		"bs58": "^6.0.0",
+		"colyseus": "0.17.10",
+		"ethers": "^6.16.0",
+		"short-uuid": "6.0.3",
+		"zod": "^3.23.8",
+		"zod-to-json-schema": "3.25.2"
+	},
+	"devDependencies": {
+		"@modelcontextprotocol/ext-apps": "^1.7.4",
+		"esbuild": "^0.28.0"
+	},
+	"bugs": {
+		"url": "https://github.com/nirholas/three.ws/issues"
+	}
+}

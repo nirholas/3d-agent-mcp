@@ -1,0 +1,53 @@
+{
+	"$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+	"name": "io.github.nirholas/3d-agent-mcp",
+	"title": "three.ws 3D Agent Tools",
+	"description": "MCP tools from three.ws: free + paid text-to-3D, rigging, agent reputation, market intel.",
+	"websiteUrl": "https://three.ws",
+	"icons": [
+		{
+			"src": "https://three.ws/three-ws-mcp-icon.svg",
+			"mimeType": "image/svg+xml",
+			"sizes": [
+				"any"
+			]
+		}
+	],
+	"repository": {
+		"url": "https://github.com/nirholas/3d-agent-mcp",
+		"source": "github"
+	},
+	"version": "1.2.0",
+	"packages": [
+		{
+			"registryType": "npm",
+			"identifier": "@three-ws/mcp-server",
+			"version": "1.2.0",
+			"runtimeHint": "npx",
+			"transport": {
+				"type": "stdio"
+			},
+			"environmentVariables": [
+				{
+					"name": "MCP_SVM_PAYMENT_ADDRESS",
+					"description": "Solana address that receives USDC when a client pays for a tool call (falls back to X402_PAY_TO_SOLANA / X402_PAY_TO). Required to settle paid tools.",
+					"format": "string",
+					"isRequired": false
+				},
+				{
+					"name": "SOLANA_RPC_URL",
+					"description": "Solana mainnet RPC endpoint. Defaults to the public cluster — bring your own (Helius / QuickNode / Triton) for production traffic.",
+					"format": "string",
+					"isRequired": false
+				},
+				{
+					"name": "HELIUS_API_KEY",
+					"description": "Optional Helius API key — enables exact supply and richer DAS data in pump.fun snapshots.",
+					"format": "string",
+					"isRequired": false,
+					"isSecret": true
+				}
+			]
+		}
+	]
+}
