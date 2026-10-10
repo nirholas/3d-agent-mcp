@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@three-ws/mcp-server: MCP tools for the 3d-agent stack</title>
+<meta name="description" content="MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.">
+<link rel="canonical" href="https://nirholas.github.io/3d-agent-mcp/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="three.ws">
+<meta property="og:title" content="@three-ws/mcp-server">
+<meta property="og:description" content="MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.">
+<meta property="og:url" content="https://nirholas.github.io/3d-agent-mcp/">
+<meta property="og:image" content="https://nirholas.github.io/3d-agent-mcp/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@three-ws/mcp-server">
+<meta name="twitter:description" content="MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.">
+<meta name="twitter:image" content="https://nirholas.github.io/3d-agent-mcp/og.png">
+<meta name="keywords" content="mcp, model-context-protocol, 3d-agent, three.ws, x402, usdc, solana, pump.fun, erc-8004, ai-agent, pose-generation, vanity-address, text-to-3d, trellis, free, mcp-server, ai-agents">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="https://three.ws/three-ws-mcp-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"@three-ws/mcp-server","description":"MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.","codeRepository":"https://github.com/nirholas/3d-agent-mcp","programmingLanguage":"JavaScript","license":"https://spdx.org/licenses/Apache-2.0.html","version":"1.2.3","url":"https://nirholas.github.io/3d-agent-mcp/","author":{"@type":"Organization","name":"three.ws","url":"https://three.ws"},"keywords":"mcp, model-context-protocol, 3d-agent, three.ws, x402, usdc, solana, pump.fun, erc-8004, ai-agent, pose-generation, vanity-address, text-to-3d, trellis, free, mcp-server, ai-agents"}</script>
+<style>:root{--bg:#fff;--fg:#111418;--mut:#586069;--line:#e3e6ea;--acc:#2563eb;--code:#f4f6f8;--card:#fafbfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0d10;--fg:#e8eaed;--mut:#9aa3ad;--line:#232830;--acc:#6ea0ff;--code:#14181d;--card:#10141a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+.bar nav{margin-left:auto;display:flex;gap:16px;font-size:14px}
+.bar nav a{color:var(--mut);text-decoration:none;transition:color .15s}.bar nav a:hover{color:var(--fg)}
+.hero{max-width:1100px;margin:0 auto;padding:48px 16px 24px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:70ch;font-size:18px;margin:0 0 24px}
+.install{display:flex;align-items:center;gap:8px;max-width:620px;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px}
+.install code{flex:1;overflow-x:auto;white-space:nowrap;font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.install button{border:0;background:var(--acc);color:#fff;border-radius:7px;padding:8px 14px;font:600 13px system-ui;cursor:pointer;transition:transform .12s,opacity .12s}
+.install button:hover{opacity:.9}.install button:active{transform:scale(.96)}
+.cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cta a{padding:9px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--fg);transition:border-color .15s,transform .15s}
+.cta a:hover{border-color:var(--acc);transform:translateY(-1px)}.cta a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layout{max-width:1100px;margin:0 auto;padding:8px 16px 64px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:76px;align-self:start;font-size:14px;border-left:1px solid var(--line);padding-left:16px}
+.toc p{margin:0 0 8px;font-weight:700;color:var(--mut);text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:6px 0}.toc a{color:var(--mut);text-decoration:none}.toc a:hover{color:var(--fg)}
+main{min-width:0;overflow-wrap:anywhere}main pre code{overflow-wrap:normal}main img{max-width:100%;height:auto}
+main h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+.anchor{margin-left:-1.1em;padding-right:.4em;text-decoration:none;opacity:0;color:var(--mut)}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{font:0.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.15em .35em;border-radius:5px}pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}th{background:var(--card)}
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid var(--line);color:var(--mut)}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.foot-in{max-width:1100px;margin:0 auto;padding:24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="https://nirholas.github.io/3d-agent-mcp/">@three-ws/mcp-server</a>
+<nav aria-label="Project links"><a href="https://github.com/nirholas/3d-agent-mcp">GitHub</a><a href="https://www.npmjs.com/package/@three-ws/mcp-server">npm</a><a href="llms.txt">llms.txt</a><a href="https://three.ws">three.ws</a></nav>
+</div></header>
+<section class="hero">
+<h1>@three-ws/mcp-server</h1>
+<p>MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.</p>
+<div class="install" role="group" aria-label="Install command"><code>npx -y @three-ws/mcp-server</code><button type="button" data-copy="npx -y @three-ws/mcp-server">Copy</button></div>
+<div class="cta"><a class="pri" href="https://github.com/nirholas/3d-agent-mcp">View on GitHub</a><a href="https://github.com/nirholas/3d-agent-mcp/stargazers">Star the repo</a><a href="https://registry.modelcontextprotocol.io/?q=io.github.nirholas%2F3d-agent-mcp">MCP Registry</a></div>
+</section>
+<div class="layout">
+<main id="content"><p align="center"><strong>MCP tools from three.ws — free text→3D plus paid text/image→3D, avatars, rigging, agent reputation, and more. Paid calls settled per call in USDC.</strong></p><p align="center">
+  <a href="https://www.npmjs.com/package/@three-ws/mcp-server"><img alt="npm" src="https://img.shields.io/npm/v/@three-ws/mcp-server?logo=npm&color=cb3837"></a>
+  <a href="https://www.npmjs.com/package/@three-ws/mcp-server"><img alt="downloads" src="https://img.shields.io/npm/dm/@three-ws/mcp-server?color=cb3837"></a>
+  <img alt="license" src="https://img.shields.io/npm/l/@three-ws/mcp-server?color=3b82f6">
+  <a href="https://registry.modelcontextprotocol.io/?q=io.github.nirholas"><img alt="MCP Registry" src="https://img.shields.io/badge/MCP%20Registry-io.github.nirholas-7c3aed"></a>
+  <img alt="node" src="https://img.shields.io/node/v/@three-ws/mcp-server?color=339933&logo=node.js">
+  <a href="https://three.ws"><img alt="three.ws" src="https://img.shields.io/badge/built%20by-three.ws-000"></a>
+</p><p align="center">
+  <a href="#quickstart-30-seconds">Quickstart</a> ·
+  <a href="#tools">Tools</a> ·
+  <a href="#environment-variables">Config</a> ·
+  <a href="#programmatic-client">Programmatic</a> ·
+  <a href="#payment-flow">Payments</a> ·
+  <a href="https://three.ws">three.ws</a>
+</p><hr>
+<blockquote>
+<p>MCP tools from <a href="https://three.ws">three.ws</a>, <strong>five need no payment, wallet, or API key to start</strong>: <code>forge_free</code> (text prompt → 3D GLB on the free NVIDIA NIM / Microsoft TRELLIS lane), <code>vanity_premium</code> (browse the pre-ground premium vanity inventory), and the crypto-news trio (<code>crypto_news</code>, <code>crypto_news_digest</code>, and <code>crypto_news_archive</code>, archive search is free up to a daily quota, then $0.001 USDC per search via x402). The rest are paid: text/image→3D mesh generation, 3D avatars, one-call text→rigged-avatar generation, GLB auto-rigging, conversational model refinement, material restyling, pose seeds, pump.fun snapshots, ERC-8004 agent reputation, ENS/SNS resolution, agent-to-agent delegation and end-to-end agent hiring, token sentiment, AgenC coordination reads, aixbt market intel, and a Solana vanity grinder. Paid calls are settled in USDC via the <a href="https://x402.org">x402</a> payment protocol on Solana mainnet (<code>exact</code> scheme). No subscription, no API key, pay per call, and failed calls never bill the caller.</p>
+</blockquote>
+<hr>
+<h2 id="quickstart-30-seconds"><a class="anchor" href="#quickstart-30-seconds" aria-label="Link to this section">#</a>Quickstart (30 seconds)</h2>
+<h3 id="claude-code"><a class="anchor" href="#claude-code" aria-label="Link to this section">#</a>Claude Code</h3>
+<pre><code class="language-bash">claude mcp add 3d-agent -- npx -y @three-ws/mcp-server
+</code></pre>
+<p>To also receive payments (server operators), pass the payout address as env: <code>claude mcp add 3d-agent -e MCP_SVM_PAYMENT_ADDRESS=YourSolanaWallet -- npx -y @three-ws/mcp-server</code>.</p>
+<h3 id="claude-desktop"><a class="anchor" href="#claude-desktop" aria-label="Link to this section">#</a>Claude Desktop</h3>
+<p>Paste this into your <strong>Claude Desktop</strong> config (<code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on macOS, <code>%APPDATA%\Claude\claude_desktop_config.json</code> on Windows):</p>
+<pre><code class="language-json">{
+	&quot;mcpServers&quot;: {
+		&quot;3d-agent&quot;: {
+			&quot;command&quot;: &quot;npx&quot;,
+			&quot;args&quot;: [&quot;-y&quot;, &quot;@three-ws/mcp-server&quot;],
+			&quot;env&quot;: {
+				&quot;MCP_SVM_PAYMENT_ADDRESS&quot;: &quot;YourSolanaWallet&quot;
+			}
+		}
+	}
+}
+</code></pre>
+<p>Restart Claude Desktop. All tools appear immediately — no install step required.</p>
+<hr>
+<h2 id="tools"><a class="anchor" href="#tools" aria-label="Link to this section">#</a>Tools</h2>
+<p>All <!-- mcp-count:three-ws-mcp-server.tools -->25<!-- /mcp-count --> tools are listed below. Most quote a fixed USDC price and settle <code>exact</code> on Solana mainnet (prices below come straight from each tool&#39;s source); <strong><code>forge_free</code>, <code>vanity_premium</code>, <code>crypto_news</code>, and <code>crypto_news_digest</code> are free</strong>, no payment, no wallet, no API key, and <code>crypto_news_archive</code> search is free up to a daily quota (stats/trending always free). Every tool also declares MCP tool annotations (<code>readOnlyHint</code>, <code>destructiveHint</code>, <code>idempotentHint</code>, <code>openWorldHint</code>) so clients can scope confirmation prompts correctly, none of these tools are destructive.</p>
+<h3 id="3d-generation"><a class="anchor" href="#3d-generation" aria-label="Link to this section">#</a>3D generation</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Price</th>
+<th>What it returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>forge_free</code></td>
+<td><strong>Free</strong></td>
+<td>Textured 3D GLB from a <strong>text prompt — at zero cost</strong>. Drives the three.ws <code>/api/forge</code> pipeline on the free NVIDIA NIM (Microsoft TRELLIS) text→3D lane — the same engine the <a href="https://three.ws/forge"><code>/forge</code></a> web page uses for prompt drafts. No x402 payment, no wallet, no API key. Pick tier <code>draft</code> (fast, default), <code>standard</code>, or <code>high</code> — all free. Returns the durable <code>glbUrl</code>, a three.ws viewer <code>preview</code> link, the <code>tier</code>, and the <code>backend</code> that actually ran. Text-only; for image/multi-view input or the Granite-directed chain use <code>mesh_forge</code>. Feed the <code>glbUrl</code> to <code>rig_mesh</code> to animate it.</td>
+</tr>
+<tr>
+<td><code>mesh_forge</code></td>
+<td>$0.25</td>
+<td>Textured 3D GLB from a <strong>text prompt or a reference image</strong>. Text mode runs a chain of specialist models — an IBM Granite &quot;prompt director&quot; rewrites the prompt into an optimized single-subject 3D spec, FLUX renders a reference image, and Microsoft TRELLIS / Tencent Hunyuan3D reconstruct the mesh. Image mode (<code>image_url</code>) reconstructs directly. Returns the durable <code>glbUrl</code>, a three.ws viewer <code>preview</code>, the <code>directedPrompt</code>, and timing.</td>
+</tr>
+<tr>
+<td><code>rig_mesh</code></td>
+<td>$0.20</td>
+<td>Auto-rig a static GLB into an animation-ready model: humanoid skeleton + per-vertex skin weights via Make-It-Animatable. Takes a <code>glb_url</code> (e.g. <code>mesh_forge</code>&#39;s output), returns the <code>riggedGlbUrl</code> and a three.ws pose-studio link.</td>
+</tr>
+<tr>
+<td><code>forge_avatar</code></td>
+<td>$0.45</td>
+<td><strong>Text/image → rigged, animation-ready avatar in ONE call.</strong> Chains the whole pipeline: Granite prompt director → FLUX + TRELLIS/Hunyuan3D reconstruction → Make-It-Animatable rigging, so the result loads straight into the pose studio and plays the canonical idle/walk library. Takes a <code>prompt</code>, a single <code>image_url</code>, or 1-4 <code>image_urls</code> (front/back/left/right) for higher-fidelity multi-view. A humanoid gate rejects a clearly non-humanoid subject <strong>without charge</strong> (use <code>mesh_forge</code> / <code>forge_free</code> for those, or set <code>allow_non_humanoid</code>). Returns the rigged GLB, the intermediate mesh, a pose-studio link, the directed prompt, and per-stage timing.</td>
+</tr>
+<tr>
+<td><code>text_to_avatar</code></td>
+<td>$0.15</td>
+<td>Textured 3D GLB avatar from a text prompt or reference image URLs, driving Replicate (Hunyuan-3D 3.1 by default). Returns the GLB URL, model version, prediction id, and timing.</td>
+</tr>
+<tr>
+<td><code>refine_model</code></td>
+<td>$0.25</td>
+<td>Iterate on a model by describing a change in plain language (&quot;make it metallic&quot;, &quot;bigger helmet&quot;). Re-generates a <strong>new</strong> version anchored to the previous one (the prior prompt is folded with your change; an optional reference image anchors it as image→3D): real generation, never a fake diff. Each refinement appends to an immutable parent→child version lineage, so you can branch from an earlier version (<code>parent_index</code>) or revert. Pass <code>parent_lineage</code> to extend a thread. Returns the new GLB, a viewer link, the composed prompt, the lineage, and the active version index.</td>
+</tr>
+<tr>
+<td><code>restyle_material</code></td>
+<td>$0.05</td>
+<td>Re-skin an existing GLB <strong>without regenerating its mesh</strong> (geometry and UVs preserved exactly). Two modes: <code>instruction</code> (&quot;make it chrome&quot;, &quot;cyberpunk neon&quot;) for an AI-proposed PBR material, or <code>preset</code> (+ <code>seed</code>/<code>count</code>) for N reproducible colorway variants: same preset + seed always yields the same set. Shares <code>refine_model</code>&#39;s lineage, so a restyle is just another version; the source GLB is never modified. Returns durable GLB URL(s), the applied PBR factors, and the lineage.</td>
+</tr>
+<tr>
+<td><code>get_pose_seed</code></td>
+<td>$0.001</td>
+<td>Deterministic seed + full Euler-rotation pose map (radians) for the three.ws pose-studio mannequin, matched from the in-repo preset library. Includes a <code>previewUrl</code> at <code>https://three.ws/pose?seed=…&amp;preset=…</code>.</td>
+</tr>
+</tbody></table>
+<h3 id="solana-markets"><a class="anchor" href="#solana-markets" aria-label="Link to this section">#</a>Solana &amp; markets</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Price</th>
+<th>What it returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pump_snapshot</code></td>
+<td>$0.005</td>
+<td>Live token snapshot — USD price (Jupiter), 24h volume + pair (Dexscreener), mint metadata + image (pump.fun frontend-api-v3), and on-chain top-holder distribution (Solana RPC). Adds Helius DAS data when <code>HELIUS_API_KEY</code> is set.</td>
+</tr>
+<tr>
+<td><code>sentiment_pulse</code></td>
+<td>$0.003</td>
+<td>Sentiment for a Solana token: scores the coin&#39;s recent pump.fun callouts (plus optional caller-supplied snippets) with the three.ws deterministic lexicon. Returns overall + per-source breakdown with examples. Pairs with <code>pump_snapshot</code>.</td>
+</tr>
+<tr>
+<td><code>vanity_grinder</code></td>
+<td>$0.05</td>
+<td>Solana keypair whose base58 address starts with <code>prefix</code> (and optionally ends with <code>suffix</code>). Returns the full base58 secret key — treat as a secret. Flat price (override with <code>MCP_VANITY_PRICE_USD</code>); a difficulty guard rejects prefixes too long to mine within the iteration cap.</td>
+</tr>
+<tr>
+<td><code>vanity_premium</code></td>
+<td>FREE</td>
+<td>Browse the <strong>premium</strong> vanity inventory: long (4-5+ char) brandable Solana addresses ground ahead of time on batch CPU and sold from stock, which the live grinder cannot reach. Read-only and free: returns each address, its rarity tier, a difficulty-scaled price ($1-$50), and a ready-to-pay x402 <code>buyUrl</code>. Paying that URL (USDC on Base or Solana) reveals the private key exactly once; the ciphertext is destroyed on delivery. Filter by prefix or tier, sort by rarity/price/newest. Keys are platform-generated: use as a token mint or sweep to self-generated custody, not as a treasury.</td>
+</tr>
+<tr>
+<td><code>aixbt_intel</code></td>
+<td>$0.01</td>
+<td>aixbt narrative intelligence feed — recent intel items across crypto with category, description, observation count, official-source flag, and the project/ticker concerned. Optional category/chain filter. Live aixbt REST API.</td>
+</tr>
+<tr>
+<td><code>aixbt_projects</code></td>
+<td>$0.01</td>
+<td>aixbt momentum scan — projects ranked by spiking/climbing/active scores, with ticker, chain, market metrics (price, mcap, 24h volume + change), and recent intel. Filter by names or chain. Live aixbt REST API.</td>
+</tr>
+<tr>
+<td><code>crypto_news</code></td>
+<td>FREE</td>
+<td>Live crypto headlines aggregated natively by three.ws from 197 publisher RSS/Atom feeds in 17 languages. Filter by category, source, or language, or full-text search. Each article carries the publisher link, publish time, detected tickers, and lexicon sentiment. No payment, no key.</td>
+</tr>
+<tr>
+<td><code>crypto_news_digest</code></td>
+<td>FREE</td>
+<td>The last 1–72h of coverage clustered into distinct narratives — title, plain-language summary, bullish/bearish stance, tickers, coverage count, and every real article behind each story. Names its engine honestly (<code>llm</code> semantic grouping or <code>heuristic</code> Jaccard clustering). No payment, no key.</td>
+</tr>
+<tr>
+<td><code>crypto_news_archive</code></td>
+<td>FREE tier</td>
+<td>Search 660,000+ archived articles back to September 2017 (refreshed hourly) by keyword, ticker, source, date range, sentiment, or language — with market context at publication where captured. <code>mode: stats</code> and <code>mode: trending</code> for corpus statistics and most-covered tickers (always free, no key). Search has a free daily quota (60/day per IP), then $0.001 USDC per search via x402 on the HTTP API; an exhausted quota returns a <code>payment_required</code> envelope with the price and networks.</td>
+</tr>
+</tbody></table>
+<h3 id="agents-identity"><a class="anchor" href="#agents-identity" aria-label="Link to this section">#</a>Agents &amp; identity</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Price</th>
+<th>What it returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>agent_reputation</code></td>
+<td>$0.01</td>
+<td>ERC-8004 reputation: <code>getReputation</code>, <code>getTotalStake</code>, and the latest <code>ReputationSubmitted</code> / <code>ReputationStaked</code> events from the canonical ReputationRegistry on the requested chain (default Base). Resolves <code>agentId</code> from a wallet address automatically.</td>
+</tr>
+<tr>
+<td><code>agent_delegate_action</code></td>
+<td>$0.01</td>
+<td>Send a message to a three.ws-registered agent and receive its response (it uses its configured Claude model + system prompt). Agents opted out of MCP delegation are refused. For agent-to-agent collaboration and tool composition.</td>
+</tr>
+<tr>
+<td><code>agent_hire_discover</code></td>
+<td>$0.01</td>
+<td><strong>Step one of the commerce loop.</strong> Shortlist three.ws agents to hire for a task, ranked by task fit + live ERC-8004 on-chain reputation + real engagement. Each candidate carries its reputation evidence, capability/task-match score, and the exact USDC price <code>agent_hire</code> will settle. Optionally gate by a minimum reputation.</td>
+</tr>
+<tr>
+<td><code>agent_hire</code></td>
+<td>$0.05</td>
+<td><strong>Step two.</strong> Hire an agent end to end: quote the price up front, settle real USDC via x402, run the remote agent, and return its result <strong>plus</strong> a provenance receipt (agent, reputation, amount paid, on-chain settlement reference, latency) rendered as an inline MCP Apps receipt card. Enforces hard spend caps (per-call <code>MCP_AGENT_HIRE_MAX_PER_CALL_USD</code>, per-session <code>..._PER_SESSION_USD</code>), a <code>confirm</code> threshold, and an optional reputation floor: a blocked or failed hire never charges the caller. Needs <code>MCP_AGENT_TALK_TOKEN</code>.</td>
+</tr>
+<tr>
+<td><code>ens_sns_resolve</code></td>
+<td>$0.0005</td>
+<td>Resolve a human-readable name across <strong>ENS</strong> (<code>.eth</code> → Ethereum address via ethers) and <strong>SNS</strong> (<code>.sol</code> → Solana owner wallet via Bonfida, plus the wallet&#39;s other owned <code>.sol</code> domains). Suffix-less names are tried against both.</td>
+</tr>
+<tr>
+<td><code>agenc_list_tasks</code></td>
+<td>$0.001</td>
+<td>List every public AgenC task created by a Solana wallet — task PDA, state, reward, deadline, worker counts, reward mint. AgenC (agenc.tech, Tetsuo Corp) is a Solana task-coordination protocol. <code>cluster</code> defaults to mainnet.</td>
+</tr>
+<tr>
+<td><code>agenc_get_task</code></td>
+<td>$0.001</td>
+<td>On-chain state + lifecycle timeline of a single AgenC task. Pass <code>taskPda</code> or <code>{creator, taskId}</code> (hex or any UTF-8 label). Returns state, reward, deadline, worker counts, lifecycle events, reward mint.</td>
+</tr>
+<tr>
+<td><code>agenc_get_agent</code></td>
+<td>$0.001</td>
+<td>An AgenC agent&#39;s on-chain registration. Pass <code>agentPda</code> or <code>agentId</code> (hex or UTF-8 label). Returns authority wallet, capability bitmask, endpoint URL, status, reputation, stake, and active task count.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="installation"><a class="anchor" href="#installation" aria-label="Link to this section">#</a>Installation</h2>
+<p>The server runs locally on your machine and speaks stdio JSON-RPC — your MCP client spawns it automatically via the <code>npx</code> command above. You do not need to <code>npm install</code> globally.</p>
+<p>If you prefer a global install:</p>
+<pre><code class="language-bash">npm install -g @three-ws/mcp-server
+</code></pre>
+<p>Then replace <code>&quot;command&quot;: &quot;npx&quot;, &quot;args&quot;: [&quot;-y&quot;, &quot;@three-ws/mcp-server&quot;]</code> with <code>&quot;command&quot;: &quot;3d-agent-mcp&quot;</code> in your config.</p>
+<hr>
+<h2 id="environment-variables"><a class="anchor" href="#environment-variables" aria-label="Link to this section">#</a>Environment variables</h2>
+<h3 id="payout-set-this-to-receive-payments-yourself"><a class="anchor" href="#payout-set-this-to-receive-payments-yourself" aria-label="Link to this section">#</a>Payout (set this to receive payments yourself)</h3>
+<table>
+<thead>
+<tr>
+<th>Var</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>MCP_SVM_PAYMENT_ADDRESS</code></td>
+<td>Solana USDC payout address (base58) where tools receive payment. Falls back to <code>X402_PAY_TO_SOLANA</code> / <code>X402_PAY_TO</code>. <strong>If unset, the server still boots and routes paid-call USDC to the three.ws platform payout</strong> — set this to a 32–44 char base58 wallet to collect payments yourself. A configured-but-malformed address fails fast.</td>
+</tr>
+</tbody></table>
+<h3 id="optional"><a class="anchor" href="#optional" aria-label="Link to this section">#</a>Optional</h3>
+<table>
+<thead>
+<tr>
+<th>Var</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>HELIUS_API_KEY</code></td>
+<td>unset</td>
+<td>Adds Helius DAS enrichment to <code>pump_snapshot</code></td>
+</tr>
+<tr>
+<td><code>SOLANA_RPC_URL</code></td>
+<td><code>https://api.mainnet-beta.solana.com</code></td>
+<td>Primary Solana RPC for <code>pump_snapshot</code> / AgenC reads</td>
+</tr>
+<tr>
+<td><code>SOLANA_RPC_URLS</code></td>
+<td>built-in public set</td>
+<td><strong>Failover</strong> — comma-separated Solana RPCs tried in order; first healthy one answers</td>
+</tr>
+<tr>
+<td><code>MCP_EVM_RPC_&lt;chainId&gt;</code></td>
+<td>built-in public set</td>
+<td><strong>Failover</strong> — comma-separated EVM RPCs for that chain (<code>agent_reputation</code>, ENS uses chain 1)</td>
+</tr>
+<tr>
+<td><code>X402_FACILITATOR_URL_SOLANA</code></td>
+<td><code>https://facilitator.payai.network</code></td>
+<td>Primary PayAI Solana facilitator that verifies + settles payments</td>
+</tr>
+<tr>
+<td><code>X402_FACILITATOR_URLS_SOLANA</code></td>
+<td>unset</td>
+<td><strong>Failover</strong> — comma-separated facilitators; earlier entries take precedence at init, a later one covers an outage</td>
+</tr>
+<tr>
+<td><code>X402_FACILITATOR_TOKEN_SOLANA</code></td>
+<td>unset</td>
+<td>Bearer token for the Solana facilitator, if required</td>
+</tr>
+<tr>
+<td><code>X402_FEE_PAYER_SOLANA</code></td>
+<td>three.ws default</td>
+<td>Fee payer for the settlement transaction</td>
+</tr>
+<tr>
+<td><code>MCP_VANITY_PRICE_USD</code></td>
+<td><code>$0.05</code></td>
+<td>Flat price for <code>vanity_grinder</code></td>
+</tr>
+<tr>
+<td><code>FORGE_FREE_API_BASE</code></td>
+<td><code>https://three.ws</code></td>
+<td>three.ws origin the free <code>forge_free</code> tool calls (<code>/api/forge</code>)</td>
+</tr>
+<tr>
+<td><code>FORGE_FREE_TIMEOUT_MS</code></td>
+<td><code>180000</code></td>
+<td><code>forge_free</code> poll budget before it returns a resumable <code>timeout</code></td>
+</tr>
+<tr>
+<td><code>FORGE_FREE_POLL_MS</code></td>
+<td><code>3000</code></td>
+<td><code>forge_free</code> poll interval while a queued job runs</td>
+</tr>
+<tr>
+<td><code>FORGE_FREE_ATTEMPTS</code></td>
+<td><code>2</code></td>
+<td>Max <code>forge_free</code> generations to prefer a <strong>durable</strong> result when the NVIDIA lane degrades (1–4). It never returns a confirmed-dead URL as success</td>
+</tr>
+<tr>
+<td><code>MCP_REVIEW_SECRET</code></td>
+<td>unset</td>
+<td><strong>Review entitlement.</strong> When set, a caller presenting a matching <code>MCP_REVIEW_MODE</code> runs paid tools for real with <strong>no charge</strong> (connector-review access). Off unless set — never bypassable on a normal install</td>
+</tr>
+<tr>
+<td><code>MCP_REVIEW_MODE</code></td>
+<td>unset</td>
+<td>Client-side value that must equal the server&#39;s <code>MCP_REVIEW_SECRET</code> to activate the review entitlement above</td>
+</tr>
+<tr>
+<td><code>MCP_POSE_PREVIEW_BASE</code></td>
+<td><code>https://three.ws/pose</code></td>
+<td>Base URL for <code>get_pose_seed</code> preview links</td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_TALK_TOKEN</code></td>
+<td>unset</td>
+<td>Platform service credential (<code>api_keys</code> bearer, scope <code>agents:delegate</code>) the <code>agent_hire</code> / <code>agent_delegate_action</code> tools present to <code>/api/agents/talk</code>. That endpoint burns platform LLM credit and requires a principal — <strong>without this token a paid hire&#39;s delegation 401s and the x402 payment cancels (the hire cannot deliver).</strong> Falls back to <code>THREE_WS_MCP_TOKEN</code> / <code>MCP_SERVICE_TOKEN</code></td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_HIRE_PRICE_USD</code></td>
+<td><code>$0.05</code></td>
+<td>The platform delegation fee <code>agent_hire</code> settles per hire</td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_HIRE_MAX_PER_CALL_USD</code></td>
+<td><code>$1</code></td>
+<td>Hard per-call spend cap — a hire above this is refused before any payment</td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_HIRE_MAX_PER_SESSION_USD</code></td>
+<td><code>$5</code></td>
+<td>Cumulative per-session spend cap across one connection</td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_HIRE_CONFIRM_THRESHOLD_USD</code></td>
+<td><code>$0.50</code></td>
+<td>Hires at or above this require an explicit <code>confirm: true</code></td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_HIRE_MIN_REPUTATION</code></td>
+<td><code>0</code></td>
+<td>Default ERC-8004 reputation floor for hires (0 = don&#39;t gate; a caller can raise it per call)</td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_REP_RPC_&lt;chainId&gt;</code></td>
+<td>public RPC</td>
+<td>Per-chain RPC override for <code>agent_reputation</code> (tried before the failover set)</td>
+</tr>
+<tr>
+<td><code>MCP_AGENT_REP_LOG_WINDOW</code></td>
+<td><code>200000</code></td>
+<td>Block window for <code>agent_reputation</code> event scan</td>
+</tr>
+<tr>
+<td><code>X402_ASSET_MINT_SOLANA</code></td>
+<td>USDC (<code>EPjFW…Dt1v</code>)</td>
+<td>SPL mint settled as the payment asset (defaults to Solana USDC)</td>
+</tr>
+<tr>
+<td><code>SOLANA_DEVNET_RPC_URL</code></td>
+<td>public devnet</td>
+<td>Devnet RPC for the AgenC tools when <code>cluster: &quot;devnet&quot;</code></td>
+</tr>
+<tr>
+<td><code>AGENC_RPC_URL</code></td>
+<td>unset</td>
+<td>Single-endpoint override for all AgenC reads (wins over cluster defaults)</td>
+</tr>
+<tr>
+<td><code>MCP_ENS_RPC_URL</code> / <code>MAINNET_RPC_URL</code></td>
+<td>failover set</td>
+<td>Ethereum-mainnet RPC override for <code>ens_sns_resolve</code></td>
+</tr>
+<tr>
+<td><code>MESH_FORGE_TIMEOUT_MS</code> / <code>MESH_FORGE_POLL_MS</code></td>
+<td><code>180000</code> / <code>3000</code></td>
+<td><code>mesh_forge</code> reconstruct poll budget / interval</td>
+</tr>
+<tr>
+<td><code>MESH_FORGE_DIRECTOR</code></td>
+<td><code>1</code> (on)</td>
+<td>Set <code>0</code> to skip the IBM Granite prompt-director stage in <code>mesh_forge</code></td>
+</tr>
+<tr>
+<td><code>RIG_MESH_TIMEOUT_MS</code> / <code>RIG_MESH_POLL_MS</code></td>
+<td><code>180000</code> / <code>3000</code></td>
+<td><code>rig_mesh</code> poll budget / interval</td>
+</tr>
+</tbody></table>
+<h3 id="texttoavatar-replicate"><a class="anchor" href="#texttoavatar-replicate" aria-label="Link to this section">#</a><code>text_to_avatar</code> (Replicate)</h3>
+<p>The <code>text_to_avatar</code> tool drives Replicate. If the two vars below are unset it returns a <code>not_configured</code> error instead of generating — every other tool works without them.</p>
+<table>
+<thead>
+<tr>
+<th>Var</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>REPLICATE_API_TOKEN</code></td>
+<td>unset (<strong>required</strong>)</td>
+<td>Replicate API token used to submit the prediction</td>
+</tr>
+<tr>
+<td><code>REPLICATE_TEXT_TO_AVATAR_MODEL</code></td>
+<td>unset (<strong>required</strong>)</td>
+<td>Pinned commercial-OK image/text-to-3D version hash (e.g. Hunyuan-3D 3.1)</td>
+</tr>
+<tr>
+<td><code>MCP_TEXT_TO_AVATAR_TIMEOUT_MS</code> / <code>MCP_TEXT_TO_AVATAR_POLL_MS</code></td>
+<td><code>110000</code> / <code>2000</code></td>
+<td>Prediction poll budget / interval</td>
+</tr>
+<tr>
+<td><code>MCP_TEXT_TO_AVATAR_REHOST</code></td>
+<td><code>0</code></td>
+<td>Set <code>1</code> to rehost the Replicate GLB to three.ws R2 via <code>MCP_REHOST_ENDPOINT</code> + <code>MCP_REHOST_KEY</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="programmatic-client"><a class="anchor" href="#programmatic-client" aria-label="Link to this section">#</a>Programmatic client</h2>
+<p>Use <code>@x402/mcp</code>&#39;s <code>wrapMCPClientWithPayment</code> to call these tools from another Node service. The wrapper auto-handles 402 retries:</p>
+<pre><code class="language-js">import { Client } from &#39;@modelcontextprotocol/sdk/client/index.js&#39;;
+import { StdioClientTransport } from &#39;@modelcontextprotocol/sdk/client/stdio.js&#39;;
+import { wrapMCPClientWithPayment } from &#39;@x402/mcp&#39;;
+import { x402Client } from &#39;@x402/core/client&#39;;
+import { registerExactSvmScheme } from &#39;@x402/svm/exact/client&#39;;
+import { Keypair } from &#39;@solana/web3.js&#39;;
+import bs58 from &#39;bs58&#39;;
+
+const transport = new StdioClientTransport({
+	command: &#39;npx&#39;,
+	args: [&#39;-y&#39;, &#39;@three-ws/mcp-server&#39;],
+	env: {
+		// Where the server receives USDC. Your client funds payments from the
+		// Solana keypair below.
+		MCP_SVM_PAYMENT_ADDRESS: process.env.MCP_SVM_PAYMENT_ADDRESS,
+	},
+});
+
+const mcp = new Client({ name: &#39;agent&#39;, version: &#39;1.0.0&#39; });
+await mcp.connect(transport);
+
+// Solana mainnet, `exact` scheme — the only network/scheme these tools accept.
+const payer = Keypair.fromSecretKey(bs58.decode(process.env.AGENT_SOLANA_SECRET_KEY));
+const x402 = new x402Client();
+registerExactSvmScheme(x402, { signer: payer });
+const paid = wrapMCPClientWithPayment(mcp, x402, { autoPayment: true });
+
+const result = await paid.callTool(&#39;get_pose_seed&#39;, { prompt: &#39;warrior stance&#39; });
+// Prefer MCP structured output; fall back to the text mirror for older servers.
+console.log(result.structuredContent ?? JSON.parse(result.content[0].text));
+</code></pre>
+<p><code>forge_free</code> needs no payer — it never emits a 402 — so you can call it on the <strong>bare</strong> MCP client (the one before <code>wrapMCPClientWithPayment</code>):</p>
+<pre><code class="language-js">// Free text → 3D — no wallet, no payment, no API key.
+const free = await mcp.callTool(&#39;forge_free&#39;, { prompt: &#39;a glossy white robot mascot&#39;, tier: &#39;draft&#39; });
+const out = free.structuredContent ?? JSON.parse(free.content[0].text);
+console.log(out.glbUrl, out.preview); // durable GLB + in-browser viewer link
+</code></pre>
+<hr>
+<h2 id="cursor"><a class="anchor" href="#cursor" aria-label="Link to this section">#</a>Cursor</h2>
+<p>In Cursor&#39;s MCP settings (<code>Cursor &gt; Settings &gt; Features &gt; MCP</code>):</p>
+<pre><code class="language-json">{
+	&quot;mcpServers&quot;: {
+		&quot;3d-agent&quot;: {
+			&quot;command&quot;: &quot;npx&quot;,
+			&quot;args&quot;: [&quot;-y&quot;, &quot;@three-ws/mcp-server&quot;],
+			&quot;env&quot;: {
+				&quot;MCP_SVM_PAYMENT_ADDRESS&quot;: &quot;YourSolanaWallet&quot;
+			}
+		}
+	}
+}
+</code></pre>
+<hr>
+<h2 id="run-from-source"><a class="anchor" href="#run-from-source" aria-label="Link to this section">#</a>Run from source</h2>
+<p>From the monorepo root:</p>
+<pre><code class="language-bash">npm install
+node mcp-server/src/index.js
+</code></pre>
+<p>Inspect tools interactively:</p>
+<pre><code class="language-bash">npm run inspect --prefix mcp-server
+</code></pre>
+<h2 id="examples"><a class="anchor" href="#examples" aria-label="Link to this section">#</a>Examples</h2>
+<p>Runnable walkthroughs of the MCP Streamable HTTP lifecycle against the live three.ws server (curl and plain-fetch Node, zero dependencies) live in <a href="https://github.com/nirholas/3d-agent-mcp/blob/main/examples"><code>examples/</code></a>.</p>
+<hr>
+<h2 id="payment-flow"><a class="anchor" href="#payment-flow" aria-label="Link to this section">#</a>Payment flow</h2>
+<p>The server is the x402 <strong>resource server</strong>. On each tool call:</p>
+<ol>
+<li>Client sends a <code>tools/call</code> request (no payment yet).</li>
+<li>Server returns <code>PaymentRequired</code> (v2 MCP transport spec) with the USDC amount and payment address.</li>
+<li>A payment-aware client (or <code>wrapMCPClientWithPayment</code>) signs and submits the on-chain payment.</li>
+<li>Client retries the <code>tools/call</code> with <code>_meta[&quot;x402/payment&quot;]</code> attached.</li>
+<li>Server verifies + settles via the configured facilitator, runs the tool, and returns the result with <code>_meta[&quot;x402/payment-response&quot;]</code>.</li>
+</ol>
+<p>Every tool settles in USDC on <strong>Solana mainnet</strong> with the <code>exact</code> scheme (<code>@x402/svm</code> ships no <code>upto</code>/metered scheme). Each tool quotes a fixed price; there is no post-hoc metering.</p>
+<p>A successful result carries the tool&#39;s JSON in two forms: <code>content[0].text</code> (for text-only clients) and <code>structuredContent</code> (MCP 2025-06-18 structured output — a ready-to-use object). A tool-level error sets <code>isError: true</code>, and the x402 wrapper <strong>cancels rather than settles</strong> the payment, so failed calls do not bill the caller.</p>
+<hr>
+<h2 id="reliability-failover"><a class="anchor" href="#reliability-failover" aria-label="Link to this section">#</a>Reliability &amp; failover</h2>
+<p>Every external dependency has a backup path, so a single provider blip doesn&#39;t take a tool down — and no call can hang a paid request indefinitely.</p>
+<ul>
+<li><strong>Every outbound HTTP call</strong> runs through a shared resilient layer (<code>src/lib/resilient-fetch.js</code>): a hard per-attempt timeout plus jittered exponential-backoff retries on transient <code>429</code>/<code>5xx</code>/network errors, honoring <code>Retry-After</code>. Retries are restricted to idempotent reads by default — a non-idempotent action like <code>agent_delegate_action</code> gets the timeout but is <strong>never</strong> silently replayed.</li>
+<li><strong>Solana RPC</strong> (<code>src/lib/solana-rpc.js</code>) fails over across an ordered endpoint list (<code>SOLANA_RPC_URLS</code>, else the primary, else a built-in public set). A throttling or down endpoint rotates to the back and the next one answers.</li>
+<li><strong>EVM RPC</strong> (<code>src/lib/evm-rpc.js</code>) uses an ethers <code>FallbackProvider</code> (quorum 1) over multiple endpoints per chain (<code>MCP_EVM_RPC_&lt;chainId&gt;</code> or built-in redundancy), each request timeout-bounded.</li>
+<li><strong>The x402 facilitator</strong> accepts a comma-separated <code>X402_FACILITATOR_URLS_SOLANA</code>: earlier entries take precedence at init, and a later facilitator covers the Solana <code>exact</code> kind if the primary&#39;s <code>/supported</code> is unreachable.</li>
+<li><strong>Data fallback:</strong> <code>pump_snapshot</code> cross-fills its USD price from Dexscreener when Jupiter is unavailable, and each upstream fails soft to a <code>null</code>/<code>{ error }</code> field rather than failing the whole snapshot.</li>
+</ul>
+<p>For maximum redundancy, set dedicated endpoints rather than relying on the public defaults:</p>
+<pre><code class="language-bash">SOLANA_RPC_URLS=&quot;https://your-primary-rpc,https://your-secondary-rpc&quot;
+MCP_EVM_RPC_8453=&quot;https://your-base-rpc,https://base-rpc.publicnode.com&quot;
+X402_FACILITATOR_URLS_SOLANA=&quot;https://facilitator.payai.network,https://your-backup-facilitator&quot;
+</code></pre>
+<hr>
+<h2 id="architecture"><a class="anchor" href="#architecture" aria-label="Link to this section">#</a>Architecture</h2>
+<pre><code>┌─────────────────┐     ┌─────────────────────┐     ┌──────────────────────┐
+│ Claude Desktop  │────▶│ @three-ws/mcp-server │────▶│  x402 facilitator    │
+│  / Cursor /     │     │   (stdio transport) │     │  (PayAI — Solana     │
+│  your agent     │     │                     │     │   USDC, exact)       │
+└─────────────────┘     └─────────────────────┘     └──────────────────────┘
+</code></pre>
+<p>Source: <a href="https://github.com/nirholas/three.ws/tree/main/mcp-server"><code>mcp-server/</code></a></p>
+<hr>
+<h2 id="requirements"><a class="anchor" href="#requirements" aria-label="Link to this section">#</a>Requirements</h2>
+<ul>
+<li>Node.js <strong>&gt;= 20</strong> (from <code>engines</code>).</li>
+<li>A Solana USDC payout address in <code>MCP_SVM_PAYMENT_ADDRESS</code> (or <code>X402_PAY_TO_SOLANA</code> / <code>X402_PAY_TO</code>) to settle paid calls — see <a href="#environment-variables">Environment variables</a>. Tool registration (names/schemas) needs no env; only an actual paid invocation does.</li>
+<li>A payment-aware MCP client (or <code>@x402/mcp</code>&#39;s <code>wrapMCPClientWithPayment</code>) funding payments from a Solana keypair.</li>
+</ul>
+<h2 id="related"><a class="anchor" href="#related" aria-label="Link to this section">#</a>Related</h2>
+<ul>
+<li><a href="https://www.npmjs.com/package/@three-ws/pumpfun-mcp"><code>@three-ws/pumpfun-mcp</code></a> — the free, read-only pump.fun + Solana MCP (token discovery, on-chain analysis, live 3D snapshots; no keys).</li>
+</ul>
+<h2 id="links"><a class="anchor" href="#links" aria-label="Link to this section">#</a>Links</h2>
+<ul>
+<li>Homepage: <a href="https://three.ws">https://three.ws</a></li>
+<li>Changelog: <a href="https://three.ws/changelog">https://three.ws/changelog</a></li>
+<li>Issues: <a href="https://github.com/nirholas/three.ws/issues">https://github.com/nirholas/three.ws/issues</a></li>
+<li>License: Apache-2.0 — see <a href="https://github.com/nirholas/3d-agent-mcp/blob/main/LICENSE">LICENSE</a></li>
+</ul>
+<hr>
+<p align="center">
+  <sub>
+    Part of the <a href="https://three.ws">three.ws</a> SDK suite — 3D AI agents, on-chain identity, and agent payments.<br/>
+    <a href="https://three.ws">Website</a> · <a href="https://three.ws/changelog">Changelog</a> · <a href="https://github.com/nirholas/three.ws">GitHub</a>
+  </sub>
+</p>
+</main>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#quickstart-30-seconds">Quickstart (30 seconds)</a></li><li><a href="#tools">Tools</a></li><li><a href="#installation">Installation</a></li><li><a href="#environment-variables">Environment variables</a></li><li><a href="#programmatic-client">Programmatic client</a></li><li><a href="#cursor">Cursor</a></li><li><a href="#run-from-source">Run from source</a></li><li><a href="#examples">Examples</a></li><li><a href="#payment-flow">Payment flow</a></li><li><a href="#reliability-failover">Reliability &amp; failover</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#requirements">Requirements</a></li><li><a href="#related">Related</a></li><li><a href="#links">Links</a></li></ul></nav>
+</div>
+<footer><div class="foot-in"><span>Apache-2.0 licensed</span><a href="https://github.com/nirholas/3d-agent-mcp/issues">Issues</a><a href="https://github.com/nirholas/3d-agent-mcp/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/nirholas/3d-agent-mcp/security/policy">Security</a><a href="https://three.ws">Part of three.ws</a></div></footer>
+<script>document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');var done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove()}})});</script>
+</body>
+</html>

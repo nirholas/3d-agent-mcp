@@ -1,0 +1,20 @@
+# @three-ws/mcp-server
+
+> MCP tools for the 3d-agent stack — free text→3D (TRELLIS) plus paid 3D/avatar/rigging, pump.fun snapshots, ERC-8004 reputation, vanity grinder. Paid calls settled in USDC via x402.
+
+@three-ws/mcp-server is a Model Context Protocol server from three.ws. Install: `npx -y @three-ws/mcp-server`.
+
+## Docs
+
+- [README](https://github.com/nirholas/3d-agent-mcp/blob/main/README.md): install, configuration, full reference
+- [Documentation site](https://nirholas.github.io/3d-agent-mcp/): the README as a web page
+- [Full text for LLMs](https://nirholas.github.io/3d-agent-mcp/llms-full.txt): README inlined
+- [AGENTS.md](https://github.com/nirholas/3d-agent-mcp/blob/main/AGENTS.md): guidance for coding agents
+
+## Project
+
+- [Source](https://github.com/nirholas/3d-agent-mcp)
+- [npm](https://www.npmjs.com/package/@three-ws/mcp-server)
+- [three.ws](https://three.ws): the platform this is part of
+- [Issues](https://github.com/nirholas/3d-agent-mcp/issues)
+- [MCP Registry](https://registry.modelcontextprotocol.io/?q=io.github.nirholas%2F3d-agent-mcp)

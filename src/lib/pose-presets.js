@@ -1,0 +1,485 @@
+// Vendored from the three.ws monorepo: src/pose-presets.js (the data the
+// public /pose page renders). Kept in sync by hand so this package is
+// self-contained when published to npm. Do not edit here — edit the canonical
+// src/pose-presets.js and re-copy.
+
+// Preset poses for /pose. Each entry is { id, label, group, pose } where
+// `pose` is a flat map of jointName → { x, y, z } Euler rotations in
+// radians, optionally with a rootPosition translating the whole figure.
+//
+// Convention reminder: in rest pose every rotation is 0 and the mannequin
+// stands upright with arms at its sides. Limbs extend along their joint
+// group's local -Y axis. Positive shoulderL.z opens the left arm outward
+// (to the figure's left); negative shoulderR.z opens the right arm outward.
+// shoulderX is forward(-) / back(+); elbow.x is bend (negative bends the
+// elbow naturally so the forearm comes up toward the shoulder).
+
+const PI = Math.PI;
+const HALF = PI / 2;
+
+export const PRESET_GROUPS = ['Standing', 'Action', 'Sitting & Floor', 'Expressive'];
+
+export const PRESETS = [
+	// ─── STANDING ───
+	{
+		id: 'tpose',
+		label: 'T-pose',
+		group: 'Standing',
+		pose: {
+			shoulderL: { x: 0, y: 0, z: HALF },
+			shoulderR: { x: 0, y: 0, z: -HALF },
+		},
+	},
+	{
+		id: 'apose',
+		label: 'A-pose',
+		group: 'Standing',
+		pose: {
+			shoulderL: { x: 0, y: 0, z: 0.55 },
+			shoulderR: { x: 0, y: 0, z: -0.55 },
+		},
+	},
+	{
+		id: 'relaxed',
+		label: 'Relaxed stand',
+		group: 'Standing',
+		pose: {
+			shoulderL: { x: -0.08, y: 0, z: 0.10 },
+			shoulderR: { x: -0.08, y: 0, z: -0.10 },
+			elbowL: { x: -0.18, y: 0, z: 0 },
+			elbowR: { x: -0.18, y: 0, z: 0 },
+			hipL: { x: 0.04, y: 0, z: 0.04 },
+			hipR: { x: -0.04, y: 0, z: -0.04 },
+			head: { x: 0.06, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'contrapposto',
+		label: 'Contrapposto',
+		group: 'Standing',
+		pose: {
+			pelvis: { x: 0, y: 0, z: 0.10 },
+			spine:  { x: 0, y: 0, z: -0.06 },
+			chest:  { x: 0, y: -0.10, z: -0.04 },
+			head:   { x: 0, y: 0.20, z: -0.05 },
+			shoulderL: { x: -0.12, y: 0, z: 0.18 },
+			shoulderR: { x: -0.10, y: 0, z: -0.10 },
+			elbowL: { x: -0.30, y: 0, z: 0 },
+			elbowR: { x: -0.18, y: 0, z: 0 },
+			hipL: { x: 0.05, y: 0, z: -0.05 },
+			hipR: { x: -0.20, y: 0, z: 0.05 },
+			kneeR: { x: 0.40, y: 0, z: 0 },
+			ankleR: { x: -0.25, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'hands-up',
+		label: 'Arms up (cheer)',
+		group: 'Standing',
+		pose: {
+			shoulderL: { x: 0, y: 0, z: PI * 0.92 },
+			shoulderR: { x: 0, y: 0, z: -PI * 0.92 },
+			elbowL: { x: -0.10, y: 0, z: 0 },
+			elbowR: { x: -0.10, y: 0, z: 0 },
+			head: { x: -0.20, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'wave',
+		label: 'Wave hello',
+		group: 'Standing',
+		pose: {
+			shoulderL: { x: 0, y: 0, z: 0.10 },
+			shoulderR: { x: 0, y: 0, z: -PI * 0.78 },
+			elbowR: { x: -1.20, y: 0, z: 0 },
+			wristR: { x: 0, y: 0, z: -0.30 },
+			head: { x: 0, y: -0.20, z: 0 },
+		},
+	},
+	{
+		id: 'hands-on-hips',
+		label: 'Hands on hips',
+		group: 'Standing',
+		pose: {
+			shoulderL: { x: 0, y: -1.2, z: 0.55 },
+			shoulderR: { x: 0, y: 1.2, z: -0.55 },
+			elbowL: { x: -1.40, y: 0, z: 0 },
+			elbowR: { x: -1.40, y: 0, z: 0 },
+			chest: { x: -0.05, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'salute',
+		label: 'Salute',
+		group: 'Standing',
+		pose: {
+			chest: { x: -0.04, y: 0, z: 0 },
+			head: { x: 0.05, y: 0, z: 0 },
+			shoulderL: { x: -0.04, y: 0, z: 0.09 },
+			elbowL: { x: -0.12, y: 0, z: 0 },
+			shoulderR: { x: -0.78, y: 0.35, z: -0.60 },
+			elbowR: { x: -2.35, y: 0, z: 0 },
+			wristR: { x: 0, y: 0, z: -0.20 },
+		},
+	},
+
+	// ─── ACTION ───
+	{
+		id: 'walk-step',
+		label: 'Walking step',
+		group: 'Action',
+		pose: {
+			shoulderL: { x: -0.55, y: 0, z: 0.05 },
+			shoulderR: { x: 0.55, y: 0, z: -0.05 },
+			elbowL: { x: -0.50, y: 0, z: 0 },
+			elbowR: { x: -0.50, y: 0, z: 0 },
+			hipL: { x: -0.55, y: 0, z: 0 },
+			hipR: { x: 0.35, y: 0, z: 0 },
+			kneeR: { x: 0.55, y: 0, z: 0 },
+			ankleL: { x: -0.10, y: 0, z: 0 },
+			ankleR: { x: 0.25, y: 0, z: 0 },
+			chest: { x: 0.08, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'run',
+		label: 'Running',
+		group: 'Action',
+		pose: {
+			chest: { x: 0.18, y: 0, z: 0 },
+			shoulderL: { x: -1.10, y: 0, z: 0.10 },
+			shoulderR: { x: 1.10, y: 0, z: -0.10 },
+			elbowL: { x: -1.50, y: 0, z: 0 },
+			elbowR: { x: -1.50, y: 0, z: 0 },
+			hipL: { x: -1.10, y: 0, z: 0 },
+			hipR: { x: 0.50, y: 0, z: 0 },
+			kneeL: { x: 1.20, y: 0, z: 0 },
+			kneeR: { x: 0.30, y: 0, z: 0 },
+			ankleL: { x: -0.30, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'jump',
+		label: 'Jumping',
+		group: 'Action',
+		pose: {
+			shoulderL: { x: 0, y: 0, z: PI * 0.85 },
+			shoulderR: { x: 0, y: 0, z: -PI * 0.85 },
+			elbowL: { x: -0.20, y: 0, z: 0 },
+			elbowR: { x: -0.20, y: 0, z: 0 },
+			hipL: { x: -0.55, y: 0, z: 0 },
+			hipR: { x: -0.55, y: 0, z: 0 },
+			kneeL: { x: 1.10, y: 0, z: 0 },
+			kneeR: { x: 1.10, y: 0, z: 0 },
+			ankleL: { x: -0.40, y: 0, z: 0 },
+			ankleR: { x: -0.40, y: 0, z: 0 },
+			chest: { x: -0.10, y: 0, z: 0 },
+			rootPosition: { x: 0, y: 0.20, z: 0 },
+		},
+	},
+	{
+		id: 'punch',
+		label: 'Punch (right)',
+		group: 'Action',
+		pose: {
+			chest: { x: 0, y: -0.30, z: 0 },
+			shoulderL: { x: -0.40, y: 0, z: 0.20 },
+			shoulderR: { x: -HALF, y: 0, z: -0.30 },
+			elbowL: { x: -1.80, y: 0, z: 0 },
+			elbowR: { x: -0.15, y: 0, z: 0 },
+			wristL: { x: -0.20, y: 0, z: 0 },
+			hipL: { x: -0.10, y: 0, z: 0.10 },
+			hipR: { x: -0.20, y: 0, z: 0 },
+			kneeL: { x: 0.30, y: 0, z: 0 },
+			kneeR: { x: 0.20, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'archery',
+		label: 'Archery',
+		group: 'Action',
+		pose: {
+			chest: { x: 0, y: -0.35, z: 0 },
+			head: { x: 0, y: 0.10, z: 0 },
+			shoulderL: { x: 0, y: 0, z: HALF + 0.05 },
+			shoulderR: { x: 0, y: 0, z: -0.40 },
+			elbowL: { x: -0.05, y: 0, z: 0 },
+			elbowR: { x: -2.10, y: 0, z: 0 },
+			wristR: { x: 0, y: 0.20, z: 0 },
+			hipL: { x: 0, y: 0, z: 0.10 },
+			hipR: { x: 0, y: 0, z: -0.10 },
+		},
+	},
+	{
+		id: 'superhero-landing',
+		label: 'Superhero landing',
+		group: 'Action',
+		pose: {
+			pelvis: { x: 0, y: 0.25, z: 0 },
+			spine:  { x: 0.20, y: 0, z: 0 },
+			chest:  { x: 0.25, y: 0, z: 0 },
+			head:   { x: 0.30, y: 0, z: 0 },
+			shoulderL: { x: 0, y: 0, z: HALF + 0.30 },
+			shoulderR: { x: -0.20, y: 0, z: -0.15 },
+			elbowL: { x: -0.40, y: 0, z: 0 },
+			elbowR: { x: -1.20, y: 0, z: 0 },
+			hipL: { x: -1.20, y: 0, z: 0.30 },
+			hipR: { x: -0.30, y: 0, z: -0.10 },
+			kneeL: { x: 2.20, y: 0, z: 0 },
+			kneeR: { x: 0.40, y: 0, z: 0 },
+			ankleL: { x: -0.30, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.42, z: 0 },
+		},
+	},
+	{
+		id: 'fighting-stance',
+		label: 'Fighting stance',
+		group: 'Action',
+		pose: {
+			spine: { x: 0.05, y: 0.10, z: 0 },
+			chest: { x: 0.05, y: 0.22, z: 0 },
+			head: { x: 0.08, y: 0.12, z: 0 },
+			shoulderL: { x: -0.85, y: 0.30, z: -0.30 },
+			shoulderR: { x: -0.85, y: -0.25, z: -0.20 },
+			elbowL: { x: -2.10, y: 0, z: 0 },
+			elbowR: { x: -2.20, y: 0, z: 0 },
+			hipL: { x: -0.25, y: 0.10, z: 0.05 },
+			hipR: { x: -0.20, y: -0.10, z: -0.05 },
+			kneeL: { x: 0.45, y: 0, z: 0 },
+			kneeR: { x: 0.55, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.12, z: 0 },
+		},
+	},
+
+	// ─── SITTING & FLOOR ───
+	{
+		id: 'sit-chair',
+		label: 'Sitting (chair)',
+		group: 'Sitting & Floor',
+		pose: {
+			hipL: { x: -HALF, y: 0, z: 0 },
+			hipR: { x: -HALF, y: 0, z: 0 },
+			kneeL: { x: HALF, y: 0, z: 0 },
+			kneeR: { x: HALF, y: 0, z: 0 },
+			shoulderL: { x: -0.20, y: 0, z: 0.15 },
+			shoulderR: { x: -0.20, y: 0, z: -0.15 },
+			elbowL: { x: -0.40, y: 0, z: 0 },
+			elbowR: { x: -0.40, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.42, z: 0 },
+		},
+	},
+	{
+		id: 'sit-floor',
+		label: 'Sitting (floor)',
+		group: 'Sitting & Floor',
+		pose: {
+			hipL: { x: -1.85, y: 0.35, z: 0.40 },
+			hipR: { x: -1.85, y: -0.35, z: -0.40 },
+			kneeL: { x: 1.80, y: 0, z: 0 },
+			kneeR: { x: 1.80, y: 0, z: 0 },
+			shoulderL: { x: 0, y: 0, z: 0.20 },
+			shoulderR: { x: 0, y: 0, z: -0.20 },
+			elbowL: { x: -0.40, y: 0, z: 0 },
+			elbowR: { x: -0.40, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.80, z: 0 },
+		},
+	},
+	{
+		id: 'kneel',
+		label: 'Kneeling',
+		group: 'Sitting & Floor',
+		pose: {
+			hipL: { x: -0.10, y: 0, z: 0 },
+			hipR: { x: -HALF, y: 0, z: 0 },
+			kneeL: { x: 0.20, y: 0, z: 0 },
+			kneeR: { x: HALF + 0.40, y: 0, z: 0 },
+			ankleL: { x: -0.20, y: 0, z: 0 },
+			shoulderL: { x: -0.20, y: 0, z: 0.10 },
+			shoulderR: { x: -0.20, y: 0, z: -0.10 },
+			elbowL: { x: -0.30, y: 0, z: 0 },
+			elbowR: { x: -0.30, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.42, z: 0 },
+		},
+	},
+	{
+		id: 'crouch',
+		label: 'Crouching',
+		group: 'Sitting & Floor',
+		pose: {
+			hipL: { x: -1.50, y: 0, z: 0.30 },
+			hipR: { x: -1.50, y: 0, z: -0.30 },
+			kneeL: { x: 2.20, y: 0, z: 0 },
+			kneeR: { x: 2.20, y: 0, z: 0 },
+			ankleL: { x: -0.40, y: 0, z: 0 },
+			ankleR: { x: -0.40, y: 0, z: 0 },
+			chest: { x: 0.30, y: 0, z: 0 },
+			shoulderL: { x: -0.30, y: 0, z: 0.20 },
+			shoulderR: { x: -0.30, y: 0, z: -0.20 },
+			elbowL: { x: -0.60, y: 0, z: 0 },
+			elbowR: { x: -0.60, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.55, z: 0 },
+		},
+	},
+	{
+		id: 'thinker',
+		label: 'The thinker',
+		group: 'Sitting & Floor',
+		pose: {
+			hipL: { x: -HALF, y: 0, z: 0 },
+			hipR: { x: -HALF, y: 0.20, z: -0.05 },
+			kneeL: { x: HALF, y: 0, z: 0 },
+			kneeR: { x: HALF, y: 0, z: 0 },
+			chest: { x: 0.30, y: -0.20, z: 0 },
+			spine: { x: 0.15, y: 0, z: 0 },
+			head: { x: 0.40, y: 0, z: 0 },
+			shoulderL: { x: -0.60, y: 0, z: 0.05 },
+			shoulderR: { x: -1.30, y: 0, z: -0.25 },
+			elbowL: { x: -0.50, y: 0, z: 0 },
+			elbowR: { x: -2.20, y: 0, z: 0 },
+			wristR: { x: -0.30, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.42, z: 0 },
+		},
+	},
+
+	// ─── EXPRESSIVE ───
+	{
+		id: 'praying',
+		label: 'Praying',
+		group: 'Expressive',
+		pose: {
+			head: { x: 0.20, y: 0, z: 0 },
+			chest: { x: 0.05, y: 0, z: 0 },
+			shoulderL: { x: -0.30, y: -0.45, z: 0.45 },
+			shoulderR: { x: -0.30, y: 0.45, z: -0.45 },
+			elbowL: { x: -1.80, y: 0, z: 0 },
+			elbowR: { x: -1.80, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'meditate',
+		label: 'Meditation',
+		group: 'Expressive',
+		pose: {
+			hipL: { x: -1.40, y: 0.50, z: 0.55 },
+			hipR: { x: -1.40, y: -0.50, z: -0.55 },
+			kneeL: { x: 2.10, y: 0, z: 0 },
+			kneeR: { x: 2.10, y: 0, z: 0 },
+			shoulderL: { x: -0.20, y: 0, z: 0.15 },
+			shoulderR: { x: -0.20, y: 0, z: -0.15 },
+			elbowL: { x: -0.30, y: 0, z: 0 },
+			elbowR: { x: -0.30, y: 0, z: 0 },
+			wristL: { x: -0.40, y: 0, z: 0 },
+			wristR: { x: -0.40, y: 0, z: 0 },
+			head: { x: 0.10, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.80, z: 0 },
+		},
+	},
+	{
+		id: 'warrior2',
+		label: 'Warrior II (yoga)',
+		group: 'Expressive',
+		pose: {
+			pelvis: { x: 0, y: 0.30, z: 0 },
+			chest: { x: 0, y: -0.30, z: 0 },
+			head: { x: 0, y: 0.50, z: 0 },
+			shoulderL: { x: 0, y: 0, z: HALF },
+			shoulderR: { x: 0, y: 0, z: -HALF },
+			hipL: { x: -0.10, y: 0.35, z: 0.20 },
+			hipR: { x: -0.15, y: 0, z: -0.45 },
+			kneeL: { x: 1.40, y: 0, z: 0 },
+			ankleL: { x: -0.20, y: 0, z: 0 },
+			rootPosition: { x: 0, y: -0.18, z: 0 },
+		},
+	},
+	{
+		id: 'arabesque',
+		label: 'Arabesque (ballet)',
+		group: 'Expressive',
+		pose: {
+			pelvis: { x: 0.25, y: 0, z: 0 },
+			spine: { x: 0.10, y: 0, z: 0 },
+			chest: { x: -0.10, y: 0, z: 0 },
+			head: { x: -0.30, y: 0, z: 0 },
+			shoulderL: { x: 0, y: 0, z: 0.95 },
+			shoulderR: { x: 0, y: 0, z: -0.95 },
+			elbowL: { x: -0.20, y: 0, z: 0 },
+			elbowR: { x: -0.20, y: 0, z: 0 },
+			hipL: { x: 0.50, y: 0, z: 0.10 },
+			hipR: { x: 0, y: 0, z: -0.10 },
+			ankleR: { x: -0.30, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'flex',
+		label: 'Flex (muscle pose)',
+		group: 'Expressive',
+		pose: {
+			chest: { x: 0, y: -0.10, z: 0 },
+			shoulderL: { x: 0, y: -0.40, z: HALF + 0.10 },
+			shoulderR: { x: 0, y: 0.40, z: -HALF - 0.10 },
+			elbowL: { x: -2.00, y: 0, z: 0 },
+			elbowR: { x: -2.00, y: 0, z: 0 },
+			wristL: { x: -0.30, y: 0, z: 0 },
+			wristR: { x: -0.30, y: 0, z: 0 },
+			head: { x: 0, y: -0.20, z: -0.05 },
+		},
+	},
+	{
+		id: 'point',
+		label: 'Pointing',
+		group: 'Expressive',
+		pose: {
+			chest: { x: 0, y: 0.20, z: 0 },
+			shoulderL: { x: 0, y: 0, z: 0.15 },
+			shoulderR: { x: -HALF + 0.20, y: 0, z: -0.40 },
+			elbowR: { x: -0.10, y: 0, z: 0 },
+			wristR: { x: -0.15, y: 0, z: 0 },
+			head: { x: 0, y: -0.30, z: 0 },
+		},
+	},
+	{
+		id: 'facepalm',
+		label: 'Facepalm',
+		group: 'Expressive',
+		pose: {
+			spine: { x: 0.10, y: 0, z: 0 },
+			chest: { x: 0.18, y: 0, z: 0 },
+			neck: { x: 0.25, y: 0, z: 0 },
+			head: { x: 0.50, y: 0, z: 0 },
+			shoulderR: { x: -0.90, y: 0.50, z: -0.45 },
+			elbowR: { x: -2.40, y: 0, z: 0 },
+			wristR: { x: 0.10, y: 0, z: 0 },
+			shoulderL: { x: -0.15, y: 0, z: 0.12 },
+			elbowL: { x: -0.30, y: 0, z: 0 },
+		},
+	},
+	{
+		id: 'bow',
+		label: 'Take a bow',
+		group: 'Expressive',
+		pose: {
+			spine: { x: 0.40, y: 0, z: 0 },
+			chest: { x: 0.55, y: 0, z: 0 },
+			neck: { x: 0.18, y: 0, z: 0 },
+			head: { x: 0.22, y: 0, z: 0 },
+			shoulderL: { x: -0.12, y: 0, z: 0.14 },
+			shoulderR: { x: -0.12, y: 0, z: -0.14 },
+			elbowL: { x: -0.28, y: 0, z: 0 },
+			elbowR: { x: -0.28, y: 0, z: 0 },
+		},
+	},
+];
+
+export function getPresetById(id) {
+	return PRESETS.find((p) => p.id === id) || null;
+}
+
+export function getPresetsByGroup() {
+	const map = {};
+	for (const group of PRESET_GROUPS) map[group] = [];
+	for (const preset of PRESETS) {
+		if (!map[preset.group]) map[preset.group] = [];
+		map[preset.group].push(preset);
+	}
+	return map;
+}
