@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "three-ws": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@three-ws/mcp-server"
+      ]
+    }
+  }
+}
